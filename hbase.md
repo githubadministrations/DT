@@ -51,19 +51,19 @@
 		 */
 		public static void creatTable(String tableName, String[] family)  
 	            throws Exception {  
-	        HBaseAdmin admin = new HBaseAdmin(config);  
-	        HTableDescriptor desc = new HTableDescriptor(tableName);  
-	        for (int i = 0; i < family.length; i++) {  
-	            desc.addFamily(new HColumnDescriptor(family[i]));  
-	        }  
-	        if (admin.tableExists(tableName)) {  
-	            System.out.println("table Exists!");  
-	            System.exit(0);  
-	        } else {  
-	            admin.createTable(desc);  
-	            System.out.println("create table Success!");  
-	        }  
-	    }
+			HBaseAdmin admin = new HBaseAdmin(config);  
+			HTableDescriptor desc = new HTableDescriptor(tableName);  
+			for (int i = 0; i < family.length; i++) {  
+			    desc.addFamily(new HColumnDescriptor(family[i]));  
+			}  
+			if (admin.tableExists(tableName)) {  
+			    System.out.println("table Exists!");  
+			    System.exit(0);  
+			} else {  
+			    admin.createTable(desc);  
+			    System.out.println("create table Success!");  
+			}  
+	 	}
 		
 		/**
 		 * 
@@ -76,20 +76,20 @@
 		 * Result
 		 */
 		public static Result getResult(String tableName, String rowKey) throws IOException{  
-	        Get get = new Get(Bytes.toBytes(rowKey));  
-	        HTable table = new HTable(config, Bytes.toBytes(tableName));// 获取表  
-	        System.out.println("--------------------根据rowkey查询-----------------------"); 
-	        Result result = table.get(get);  
-	        for (KeyValue kv : result.list()) { 
-	        	System.out.println("-------------------------------------------");
-	            System.out.println("family:" + Bytes.toString(kv.getFamily()));  
-	            System.out.println("qualifier:" + Bytes.toString(kv.getQualifier()));  
-	            System.out.println("value:" + Bytes.toString(kv.getValue()));  
-	            System.out.println("Timestamp:" + kv.getTimestamp());  
-	            System.out.println("-------------------------------------------");  
-	        }  
-	        return result;  
-	    }  
+			Get get = new Get(Bytes.toBytes(rowKey));  
+			HTable table = new HTable(config, Bytes.toBytes(tableName));// 获取表  
+			System.out.println("--------------------根据rowkey查询-----------------------"); 
+			Result result = table.get(get);  
+			for (KeyValue kv : result.list()) { 
+				System.out.println("-------------------------------------------");
+			    System.out.println("family:" + Bytes.toString(kv.getFamily()));  
+			    System.out.println("qualifier:" + Bytes.toString(kv.getQualifier()));  
+			    System.out.println("value:" + Bytes.toString(kv.getValue()));  
+			    System.out.println("Timestamp:" + kv.getTimestamp());  
+			    System.out.println("-------------------------------------------");  
+			}  
+			return result;  
+	    	}  
 		
 		/**
 		 * 
@@ -100,26 +100,26 @@
 		 * void
 		 */
 		public static void getResultScann(String tableName) throws IOException {  
-	        Scan scan = new Scan();  
-	        ResultScanner rs = null;  
-	        HTable table = new HTable(config, Bytes.toBytes(tableName));
-	        System.out.println("--------------------遍历查询-----------------------"); 
-	        try {  
-	            rs = table.getScanner(scan);  
-	            for (Result r : rs) {  
-	                for (KeyValue kv : r.list()) {  
-	                    System.out.println("row:" + Bytes.toString(kv.getRow()));  
-	                    System.out.println("family:" + Bytes.toString(kv.getFamily()));  
-	                    System.out.println("qualifier:" + Bytes.toString(kv.getQualifier()));  
-	                    System.out.println("value:" + Bytes.toString(kv.getValue()));  
-	                    System.out.println("timestamp:" + kv.getTimestamp());  
-	                    System.out.println("-------------------------------------------");  
-	                }  
-	            }  
-	        } finally {  
-	            rs.close();  
-	        }  
-	    }
+			Scan scan = new Scan();  
+			ResultScanner rs = null;  
+			HTable table = new HTable(config, Bytes.toBytes(tableName));
+			System.out.println("--------------------遍历查询-----------------------"); 
+			try {  
+			    rs = table.getScanner(scan);  
+			    for (Result r : rs) {  
+				for (KeyValue kv : r.list()) {  
+				    System.out.println("row:" + Bytes.toString(kv.getRow()));  
+				    System.out.println("family:" + Bytes.toString(kv.getFamily()));  
+				    System.out.println("qualifier:" + Bytes.toString(kv.getQualifier()));  
+				    System.out.println("value:" + Bytes.toString(kv.getValue()));  
+				    System.out.println("timestamp:" + kv.getTimestamp());  
+				    System.out.println("-------------------------------------------");  
+				}  
+			    }  
+			} finally {  
+			    rs.close();  
+			}  
+	   	 }
 		
 		/**
 		 * 
@@ -134,18 +134,18 @@
 		 */
 		public static void getResultByColumn(String tableName, String rowKey,  
 	            String familyName, String columnName) throws IOException {  
-	        HTable table = new HTable(config, Bytes.toBytes(tableName));  
-	        Get get = new Get(Bytes.toBytes(rowKey));  
-	        get.addColumn(Bytes.toBytes(familyName), Bytes.toBytes(columnName)); // 获取指定列族和列修饰符对应的列  
-	        Result result = table.get(get);  
-	        for (KeyValue kv : result.list()) {  
-	            System.out.println("family:" + Bytes.toString(kv.getFamily()));  
-	            System.out.println("qualifier:" + Bytes.toString(kv.getQualifier()));  
-	            System.out.println("value:" + Bytes.toString(kv.getValue()));  
-	            System.out.println("Timestamp:" + kv.getTimestamp());  
-	            System.out.println("-------------------------------------------");  
-	        }  
-	    }
+			HTable table = new HTable(config, Bytes.toBytes(tableName));  
+			Get get = new Get(Bytes.toBytes(rowKey));  
+			get.addColumn(Bytes.toBytes(familyName), Bytes.toBytes(columnName)); // 获取指定列族和列修饰符对应的列  
+			Result result = table.get(get);  
+			for (KeyValue kv : result.list()) {  
+			    System.out.println("family:" + Bytes.toString(kv.getFamily()));  
+			    System.out.println("qualifier:" + Bytes.toString(kv.getQualifier()));  
+			    System.out.println("value:" + Bytes.toString(kv.getValue()));  
+			    System.out.println("Timestamp:" + kv.getTimestamp());  
+			    System.out.println("-------------------------------------------");  
+			}  
+	    	}
 		
 		/**
 		 * 
@@ -162,13 +162,13 @@
 		public static void updateTable(String tableName, String rowKey,  
 	            String familyName, String columnName, String value)  
 	            throws IOException {  
-	        HTable table = new HTable(config, Bytes.toBytes(tableName));  
-	        Put put = new Put(Bytes.toBytes(rowKey));  
-	        put.add(Bytes.toBytes(familyName), Bytes.toBytes(columnName),  
-	                Bytes.toBytes(value));  
-	        table.put(put);  
-	        System.out.println("update table Success!");  
-	    }
+			HTable table = new HTable(config, Bytes.toBytes(tableName));  
+			Put put = new Put(Bytes.toBytes(rowKey));  
+			put.add(Bytes.toBytes(familyName), Bytes.toBytes(columnName),  
+				Bytes.toBytes(value));  
+			table.put(put);  
+			System.out.println("update table Success!");  
+	    	}
 		
 		/**
 		 * 
@@ -183,13 +183,13 @@
 		 */
 		public static void deleteColumn(String tableName, String rowKey,  
 	            String falilyName, String columnName) throws IOException {  
-	        HTable table = new HTable(config, Bytes.toBytes(tableName));  
-	        Delete deleteColumn = new Delete(Bytes.toBytes(rowKey));  
-	        deleteColumn.deleteColumns(Bytes.toBytes(falilyName),  
-	                Bytes.toBytes(columnName));  
-	        table.delete(deleteColumn);  
-	        System.out.println(falilyName + ":" + columnName + "is deleted!");  
-	    } 
+			HTable table = new HTable(config, Bytes.toBytes(tableName));  
+			Delete deleteColumn = new Delete(Bytes.toBytes(rowKey));  
+			deleteColumn.deleteColumns(Bytes.toBytes(falilyName),  
+				Bytes.toBytes(columnName));  
+			table.delete(deleteColumn);  
+			System.out.println(falilyName + ":" + columnName + "is deleted!");  
+	    	} 
 		
 		/**
 		 * 
@@ -202,11 +202,11 @@
 		 */
 		public static void deleteAllColumn(String tableName, String rowKey)  
 	            throws IOException {  
-	        HTable table = new HTable(config, Bytes.toBytes(tableName));  
-	        Delete deleteAll = new Delete(Bytes.toBytes(rowKey));  
-	        table.delete(deleteAll);  
-	        System.out.println("all columns are deleted!");  
-	    }
+			HTable table = new HTable(config, Bytes.toBytes(tableName));  
+			Delete deleteAll = new Delete(Bytes.toBytes(rowKey));  
+			table.delete(deleteAll);  
+			System.out.println("all columns are deleted!");  
+	   	}
 		
 		/**
 		 * 
@@ -217,11 +217,11 @@
 		 * void
 		 */
 		public static void deleteTable(String tableName) throws IOException {  
-	        HBaseAdmin admin = new HBaseAdmin(config);  
-	        admin.disableTable(tableName);  
-	        admin.deleteTable(tableName);  
-	        System.out.println(tableName + "is deleted!");  
-	    }
+			HBaseAdmin admin = new HBaseAdmin(config);  
+			admin.disableTable(tableName);  
+			admin.deleteTable(tableName);  
+			System.out.println(tableName + "is deleted!");  
+	    	}
 		
 		/**
 		 * 
@@ -235,29 +235,29 @@
 		 * void
 		 */
 		public static void put(String tableName,String rowKey,String family,String column,String value)  
-	    {    
-	        try {  
-	            HTable table=new HTable(config,tableName);  
-	            HBaseAdmin admin=new HBaseAdmin(config);  
-	            //判断表是否存在，如果不存在进行创建  
-	            if(!admin.tableExists(Bytes.toBytes(tableName)))  
-	            {  
-	                HTableDescriptor tableDescriptor=new HTableDescriptor(Bytes.toBytes(tableName));  
-	                HColumnDescriptor columnDescriptor=new HColumnDescriptor(Bytes.toBytes(family));  
-	                tableDescriptor.addFamily(columnDescriptor);  
-	                admin.createTable(tableDescriptor);  
-	            }  
-	            table.setAutoFlush(true);  
-	            //进行数据插入  
-	            Put put=new Put(Bytes.toBytes(rowKey));  
-	            put.add(Bytes.toBytes(family),Bytes.toBytes(column),Bytes.toBytes(value));  
-	            table.put(put);  
-	            table.close();  
-	        } catch (IOException e) {  
-	            // TODO Auto-generated catch block  
-	            e.printStackTrace();  
-	        }  
-	    }  
+	    	{    
+			try {  
+			    HTable table=new HTable(config,tableName);  
+			    HBaseAdmin admin=new HBaseAdmin(config);  
+			    //判断表是否存在，如果不存在进行创建  
+			    if(!admin.tableExists(Bytes.toBytes(tableName)))  
+			    {  
+				HTableDescriptor tableDescriptor=new HTableDescriptor(Bytes.toBytes(tableName));  
+				HColumnDescriptor columnDescriptor=new HColumnDescriptor(Bytes.toBytes(family));  
+				tableDescriptor.addFamily(columnDescriptor);  
+				admin.createTable(tableDescriptor);  
+			    }  
+			    table.setAutoFlush(true);  
+			    //进行数据插入  
+			    Put put=new Put(Bytes.toBytes(rowKey));  
+			    put.add(Bytes.toBytes(family),Bytes.toBytes(column),Bytes.toBytes(value));  
+			    table.put(put);  
+			    table.close();  
+			} catch (IOException e) {  
+			    // TODO Auto-generated catch block  
+			    e.printStackTrace();  
+			}  
+	    	}  
 		
 		public static void main(String[] args) throws Exception {
 			System.out.println("===================");
